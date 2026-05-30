@@ -32,6 +32,9 @@ public
 
     @Override
     public void keyReleased(KeyEvent e) {
-
+        int key = e.getKeyCode();
+        if (key == KeyEvent.VK_S) {
+            GameThread.getThread().start();
+        }
     }
 }

@@ -5,6 +5,7 @@ public
     extends Thread {
 
     private static GameThread THREAD;
+    private boolean isRunning = false;
 
     private GameThread() {
     }
@@ -19,6 +20,7 @@ public
 
     @Override
     public void run() {
+        this.isRunning = true;
         // ...
     }
 }
