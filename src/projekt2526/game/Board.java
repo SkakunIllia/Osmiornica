@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 
 public
     class Board
-    implements KeyListener {
+    implements KeyListener, TickListener {
 
     private final int[][] plansza;
 
@@ -34,7 +34,17 @@ public
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
         if (key == KeyEvent.VK_S) {
-            GameThread.getThread().start();
+            GameThread thread = GameThread.getThread();
+            if (!thread.isAlive()) {
+                thread.start();
+            } else {
+                thread.resumeThread();
+            }
         }
+    }
+
+    @Override
+    public void fireOnTick(TickEvent e) {
+
     }
 }
