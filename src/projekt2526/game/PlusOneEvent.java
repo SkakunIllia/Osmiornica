@@ -3,10 +3,10 @@ package projekt2526.game;
 import java.util.EventObject;
 
 public
-    class TickEvent
+    class PlusOneEvent
     extends EventObject {
 
-    public TickEvent(Object source) {
+    public PlusOneEvent(Object source) {
         super(source);
     }
 }

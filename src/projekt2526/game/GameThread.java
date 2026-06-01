@@ -13,6 +13,7 @@ public
     private int timeInterval;
 
     private GameThread() {
+        super();
         this.listeners = new CopyOnWriteArrayList<>();
         this.timeInterval = 1_000;
     }
@@ -36,7 +37,7 @@ public
     @Override
     public void run() {
         this.isRunning = true;
-        TickEvent event = new TickEvent();
+        TickEvent event = new TickEvent(this);
         while (!this.isInterrupted()) {
             if (this.isRunning) {
                 for (TickListener l: this.listeners) {
