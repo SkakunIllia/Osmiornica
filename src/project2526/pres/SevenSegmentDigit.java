@@ -64,6 +64,6 @@ public
         for (ScoreListener l: this.listeners) {
             l.fireOnResetEvent(event);
         }
-        this.model.updateNumber(0);
+        this.model.updateNumber(DigitTableModel.EMPTY);
     }
 }

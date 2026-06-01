@@ -76,8 +76,16 @@ public
             {true, true, true},
             {false, false, true},
             {true, true, true}
+        },
+        {
+            {false, false, false},
+            {false, false, false},
+            {false, false, false},
+            {false, false, false},
+            {false, false, false}
         }
     };
+    public static final int EMPTY = 10;
     private boolean[][] currentDigit;
 
     public DigitTableModel() {
