@@ -1,4 +1,4 @@
-package projekt2526.pres;
+package project2526.pres;
 
 public
     class SpriteRenderer {

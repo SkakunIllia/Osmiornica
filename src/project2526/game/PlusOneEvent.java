@@ -1,12 +1,12 @@
-package projekt2526.game;
+package project2526.game;
 
 import java.util.EventObject;
 
 public
-    class ResetEvent
+    class PlusOneEvent
     extends EventObject {
 
-    public ResetEvent(Object source) {
+    public PlusOneEvent(Object source) {
         super(source);
     }
 }

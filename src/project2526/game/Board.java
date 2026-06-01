@@ -1,4 +1,4 @@
-package projekt2526.game;
+package project2526.game;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
