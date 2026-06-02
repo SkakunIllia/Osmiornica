@@ -29,7 +29,6 @@ public
 
         JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
-
         southPanel.add(pointsPanel);
         panel.add(southPanel, BorderLayout.EAST);
         this.add(panel, BorderLayout.PAGE_END);
