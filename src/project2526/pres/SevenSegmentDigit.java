@@ -6,6 +6,7 @@ import project2526.game.ScoreListener;
 import project2526.game.StartEvent;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,16 @@ public
 
         this.model = new DigitTableModel();
         this.setModel(this.model);
+        this.setDefaultRenderer(Boolean.class, new SpriteRenderer());
+
+        this.setShowGrid(false);
+        this.setIntercellSpacing(new Dimension(0, 0));
+        this.setBackground(Color.BLACK);
+        this.setEnabled(false);
+        this.setRowHeight(15);
+        for (int i = 0; i < this.getColumnCount(); i++) {
+            this.getColumnModel().getColumn(i).setPreferredWidth(15);
+        }
     }
 
     public void addScoreListener(ScoreListener l) {

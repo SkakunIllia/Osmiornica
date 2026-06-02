@@ -1,6 +1,7 @@
 package project2526.pres;
 
 import javax.swing.table.AbstractTableModel;
+import java.awt.*;
 
 public
     class DigitTableModel
@@ -51,14 +52,14 @@ public
         },
         {
             {true, true, true},
-            {true, false, true},
+            {true, false, false},
             {true, true, true},
             {true, false, true},
             {true, true, true}
         },
         {
             {true, true, true},
-            {true, false, true},
+            {false, false, true},
             {false, false, true},
             {false, false, true},
             {false, false, true}
@@ -111,5 +112,10 @@ public
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         return this.currentDigit[rowIndex][columnIndex];
+    }
+
+    @Override
+    public Class<?> getColumnClass(int columnIndex) {
+        return Boolean.class;
     }
 }
