@@ -8,8 +8,10 @@ public
     implements KeyListener, TickListener {
 
     private final int[][] plansza;
+    private int currentPosition;
 
     public Board() {
+        this.currentPosition = 0;
         this.plansza = new int[][]{
             {0, 0},
             {0, 0, 0},
@@ -27,7 +29,11 @@ public
 
     @Override
     public void keyPressed(KeyEvent e) {
-
+        int key = e.getKeyCode();
+        switch (key) {
+            case KeyEvent.VK_D -> this.currentPosition++;
+            case KeyEvent.VK_A -> this.currentPosition--;
+        }
     }
 
     @Override

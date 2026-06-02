@@ -1,7 +1,6 @@
 package project2526.pres;
 
 import javax.swing.table.AbstractTableModel;
-import java.awt.*;
 
 public
     class DigitTableModel

@@ -28,10 +28,14 @@ public
         pointsPanel.add(ones);
 
         JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton btn = new JButton("+1");
+
+        btn.addActionListener(e -> ones.fireOnPlusOneEvent(new PlusOneEvent(this)));
 
         southPanel.add(pointsPanel);
         panel.add(southPanel, BorderLayout.EAST);
         this.add(panel, BorderLayout.PAGE_END);
+        this.add(btn, BorderLayout.PAGE_START);
 
         this.setSize(new Dimension(500, 500));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
