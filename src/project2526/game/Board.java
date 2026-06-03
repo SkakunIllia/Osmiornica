@@ -2,35 +2,15 @@ package project2526.game;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public
     class Board
     implements KeyListener, TickListener, ScoreListener {
 
     private final int[][] plansza;
-    private final int[][] pathCoordinates;
-    private int currentPosition;
-    private int movingPositionBuffer;
-    private int lives;
-    private boolean isTreasureTaken;
-
-    public Board() {
-        this.currentPosition = 0;
-        this.movingPositionBuffer = 0;
-        this.lives = 3;
-
-        this.isTreasureTaken = false;
-
-        this.plansza = new int[][]{
-            {0, 0},
-            {0, 0, 0},
-            {0, 0, 0, 0},
-            {0, 0, 0, 0, 0},
-            {0, 0, 0, 0},
-            {0, 0, 0}
-        };
-
-        this.pathCoordinates = new int[][]{
+    private static final int[][] PATH_COORDINATES = {
             {0, 0},
             {0, 1},
             {1, 0},
@@ -42,7 +22,44 @@ public
             {5, 2},
             {4, 3},
             {3, 4},
+    };
+
+    private final static int BEGINNING = 0;
+    private final static int END = Board.PATH_COORDINATES.length - 1;
+
+    private int currentPosition;
+    private int movingPositionBuffer;
+    private int lives;
+
+    private boolean isTreasureTaken;
+
+    private final List<ScoreListener> listeners;
+
+    public Board() {
+        this.currentPosition = Board.BEGINNING;
+        this.movingPositionBuffer = 0;
+        this.lives = 3;
+
+        this.isTreasureTaken = false;
+
+        this.plansza = new int[][]{
+                {0, 0},
+                {0, 0, 0},
+                {0, 0, 0, 0},
+                {0, 0, 0, 0, 0},
+                {0, 0, 0, 0},
+                {0, 0, 0}
         };
+
+        this.listeners = new ArrayList<>();
+    }
+
+    public void addScoreListener(ScoreListener l) {
+        this.listeners.add(l);
+    }
+
+    public void removeScoreListener(ScoreListener l) {
+        this.listeners.remove(l);
     }
 
     @Override
@@ -73,6 +90,19 @@ public
     @Override
     public void fireOnTick(TickEvent e) {
         this.updatePosition();
+        this.checkTreasure();
+    }
+
+    private void checkTreasure() {
+        if (!this.isTreasureTaken && this.currentPosition == Board.END) {
+            this.isTreasureTaken = true;
+            this.fireOnPlusOneEvent(new PlusOneEvent(this));
+        } else if (this.isTreasureTaken && this.currentPosition == Board.BEGINNING) {
+            for (int i = 0; i < 3; i++) {
+                this.fireOnPlusOneEvent(new PlusOneEvent(this));
+            }
+            this.isTreasureTaken = false;
+        }
     }
 
     private void updatePosition() {
@@ -86,7 +116,7 @@ public
             }
         }
 
-        this.currentPosition = Math.max(Math.min(6, this.currentPosition), 0);
+        this.currentPosition = Math.max(Math.min(Board.END, this.currentPosition), Board.BEGINNING);
     }
 
     @Override
@@ -96,15 +126,23 @@ public
         this.lives = 3;
 
         this.isTreasureTaken = false;
+
+        for (ScoreListener l: this.listeners) {
+            l.fireOnStartEvent(new StartEvent(this));
+        }
     }
 
     @Override
     public void fireOnPlusOneEvent(PlusOneEvent e) {
-
+        for (ScoreListener l: this.listeners) {
+            l.fireOnPlusOneEvent(new PlusOneEvent(this));
+        }
     }
 
     @Override
     public void fireOnResetEvent(ResetEvent e) {
-
+        for (ScoreListener l: this.listeners) {
+            l.fireOnResetEvent(new ResetEvent(this));
+        }
     }
 }
