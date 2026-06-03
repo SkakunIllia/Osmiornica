@@ -5,7 +5,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public
     class GameThread
-    extends Thread {
+    extends Thread
+    implements ScoreListener {
 
     private static GameThread THREAD;
     private boolean isRunning = false;
@@ -64,5 +65,23 @@ public
 
     public void resumeThread() {
         this.isRunning = true;
+    }
+
+    @Override
+    public void fireOnStartEvent(StartEvent e) {
+        this.isRunning = false;
+        this.timeInterval = 1_000;
+    }
+
+    @Override
+    public void fireOnPlusOneEvent(PlusOneEvent e) {
+        this.isRunning = false;
+        this.timeInterval = 1_000;
+    }
+
+    @Override
+    public void fireOnResetEvent(ResetEvent e) {
+        this.isRunning = false;
+        this.timeInterval = 1_000;
     }
 }

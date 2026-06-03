@@ -21,20 +21,25 @@ public
 
     public SevenSegmentDigit() {
         super();
-        this.digitValue = 0;
+        this.digitValue = DigitTableModel.ZERO;
         this.listeners = new ArrayList<>();
 
         this.model = new DigitTableModel();
         this.setModel(this.model);
-        this.setDefaultRenderer(Boolean.class, new SpriteRenderer());
+        this.setDefaultRenderer(Boolean.class, new DigitCellRenderer());
+
+        int rowHeight = 15;
+        int rowWidth = 15;
+        int intercellSpacingWidth = 0;
+        int intercellSpacingHeight = 0;
 
         this.setShowGrid(false);
-        this.setIntercellSpacing(new Dimension(0, 0));
+        this.setIntercellSpacing(new Dimension(intercellSpacingWidth, intercellSpacingHeight));
         this.setBackground(Color.BLACK);
         this.setEnabled(false);
-        this.setRowHeight(15);
+        this.setRowHeight(rowHeight);
         for (int i = 0; i < this.getColumnCount(); i++) {
-            this.getColumnModel().getColumn(i).setPreferredWidth(15);
+            this.getColumnModel().getColumn(i).setPreferredWidth(rowWidth);
         }
     }
 
@@ -48,7 +53,7 @@ public
 
     @Override
     public void fireOnStartEvent(StartEvent e) {
-        this.digitValue = 0;
+        this.digitValue = DigitTableModel.ZERO;
         StartEvent event = new StartEvent(this);
         for (ScoreListener l : this.listeners) {
             l.fireOnStartEvent(event);
@@ -58,19 +63,19 @@ public
 
     @Override
     public void fireOnPlusOneEvent(PlusOneEvent e) {
-        if (++this.digitValue > 9) {
+        if (++this.digitValue > DigitTableModel.NINE) {
             PlusOneEvent event = new PlusOneEvent(this);
             for (ScoreListener l: this.listeners) {
                 l.fireOnPlusOneEvent(event);
             }
-            this.digitValue = 0;
+            this.digitValue = DigitTableModel.ZERO;
         }
         this.model.updateNumber(this.digitValue);
     }
 
     @Override
     public void fireOnResetEvent(ResetEvent e) {
-        this.digitValue = 0;
+        this.digitValue = DigitTableModel.ZERO;
         ResetEvent event = new ResetEvent(this);
         for (ScoreListener l: this.listeners) {
             l.fireOnResetEvent(event);
