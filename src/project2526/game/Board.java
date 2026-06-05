@@ -96,7 +96,7 @@ public
     }
 
     private void updateTentacles() {
-        for (int i = 0; i < this.plansza.length; i++) {
+        for (int i = 1; i < this.plansza.length; i++) {
             int headIndex = this.plansza[i].length;
             for (int j = 0; j < this.plansza[i].length; j++) {
                 if (this.plansza[i][j] == 1) {

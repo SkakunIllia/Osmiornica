@@ -1,5 +1,7 @@
 package project2526.pres;
 
+import project2526.game.Board;
+import project2526.game.GameThread;
 import project2526.game.PlusOneEvent;
 import project2526.game.StartEvent;
 
@@ -11,31 +13,35 @@ public
     extends JFrame {
 
     public GameWindow() {
-        this.setLayout(new BorderLayout());
         JPanel panel = new JPanel(new BorderLayout());
 
         SevenSegmentDigit ones = new SevenSegmentDigit();
         SevenSegmentDigit tens = new SevenSegmentDigit();
         SevenSegmentDigit hundreds = new SevenSegmentDigit();
 
+        Board board = new Board();
+        this.addKeyListener(board);
+
+        GameThread thread = GameThread.getThread();
+
+        hundreds.addScoreListener(thread);
+
+        board.addScoreListener(ones);
+        board.addScoreListener(thread);
+
+        thread.addTickListener(board);
+
         ones.addScoreListener(tens);
         tens.addScoreListener(hundreds);
 
-        JPanel pointsPanel = new JPanel(new FlowLayout());
+        JPanel pointsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         pointsPanel.add(hundreds);
         pointsPanel.add(tens);
         pointsPanel.add(ones);
 
-        JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        JButton btn = new JButton("+1");
-
-        btn.addActionListener(e -> ones.fireOnPlusOneEvent(new PlusOneEvent(this)));
-
-        southPanel.add(pointsPanel);
-        panel.add(southPanel, BorderLayout.EAST);
-        this.add(panel, BorderLayout.PAGE_END);
-        this.add(btn, BorderLayout.PAGE_START);
+        panel.add(pointsPanel, BorderLayout.PAGE_END);
+        this.add(panel);
 
         this.setSize(new Dimension(500, 500));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
