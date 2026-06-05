@@ -44,11 +44,11 @@ public
 
         this.plansza = new int[][]{
                 {0, 0},
-                {0, 0, 0},
-                {0, 0, 0, 0},
-                {0, 0, 0, 0, 0},
-                {0, 0, 0, 0},
-                {0, 0, 0}
+                {0, 0, 1},
+                {0, 0, 0, 1},
+                {0, 0, 0, 0, 1},
+                {0, 0, 0, 1},
+                {0, 0, 1}
         };
 
         this.listeners = new ArrayList<>();
@@ -91,6 +91,44 @@ public
     public void fireOnTick(TickEvent e) {
         this.updatePosition();
         this.checkTreasure();
+        this.updateTentacles();
+        this.checkCollision();
+    }
+
+    private void updateTentacles() {
+        for (int i = 0; i < this.plansza.length; i++) {
+            int headIndex = this.plansza[i].length;
+            for (int j = 0; j < this.plansza[i].length; j++) {
+                if (this.plansza[i][j] == 1) {
+                    headIndex = j;
+                    break;
+                }
+            }
+            boolean extend = Math.random() > 0.5;
+
+            if (extend) {
+                if (headIndex > 0) {
+                    this.plansza[i][headIndex - 1] = 1;
+                }
+            } else {
+                if (headIndex < this.plansza[i].length) {
+                    this.plansza[i][headIndex] = 0;
+                }
+            }
+        }
+    }
+
+    private void checkCollision() {
+        int row = PATH_COORDINATES[this.currentPosition][0];
+        int col = PATH_COORDINATES[this.currentPosition][1];
+        if (row > 0 && this.plansza[row][col] != 0) {
+            this.lives--;
+            this.isTreasureTaken = false;
+            this.currentPosition = Board.BEGINNING;
+            if (this.lives <= 0) {
+                this.fireOnResetEvent(new ResetEvent(this));
+            }
+        }
     }
 
     private void checkTreasure() {

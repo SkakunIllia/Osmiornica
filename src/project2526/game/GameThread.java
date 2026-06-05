@@ -1,7 +1,7 @@
 package project2526.game;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public
     class GameThread
@@ -15,11 +15,11 @@ public
 
     private GameThread() {
         super();
-        this.listeners = new CopyOnWriteArrayList<>();
+        this.listeners = new ArrayList<>();
         this.timeInterval = 1_000;
     }
 
-    public static synchronized  GameThread getThread() {
+    public static synchronized GameThread getThread() {
         if (GameThread.THREAD == null) {
             GameThread.THREAD = new GameThread();
         }
@@ -27,11 +27,11 @@ public
         return GameThread.THREAD;
     }
 
-    public void addTickListener(TickListener l) {
+    public synchronized void addTickListener(TickListener l) {
         this.listeners.add(l);
     }
 
-    public void removeTickListener(TickListener l) {
+    public synchronized void removeTickListener(TickListener l) {
         this.listeners.remove(l);
     }
 
