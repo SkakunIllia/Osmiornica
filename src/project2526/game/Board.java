@@ -44,11 +44,11 @@ public
 
         this.plansza = new int[][]{
                 {0, 0},
-                {0, 0, 1},
-                {0, 0, 0, 1},
-                {0, 0, 0, 0, 1},
-                {0, 0, 0, 1},
-                {0, 0, 1}
+                {0, 0, 0},
+                {0, 0, 0, 0},
+                {0, 0, 0, 0, 0},
+                {0, 0, 0, 0},
+                {0, 0, 0}
         };
 
         this.listeners = new ArrayList<>();
@@ -60,6 +60,18 @@ public
 
     public void removeScoreListener(ScoreListener l) {
         this.listeners.remove(l);
+    }
+
+    public int[][] getPlansza() {
+        return this.plansza;
+    }
+
+    public boolean isTreasureTaken() {
+        return this.isTreasureTaken;
+    }
+
+    public int getCurrentPosition() {
+        return this.currentPosition;
     }
 
     @Override
