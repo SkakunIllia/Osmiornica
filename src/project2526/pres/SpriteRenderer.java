@@ -43,6 +43,6 @@ public
 
     @Override
     public void fireOnTick(TickEvent e) {
-
+        this.repaint();
     }
 }
