@@ -19,7 +19,6 @@ public
             {2, 0},
             {3, 0},
             {4, 0},
-            {5, 0},
             {5, 1},
             {5, 2},
             {4, 4}
@@ -169,7 +168,7 @@ public
         if (!this.isTreasureTaken && this.currentPosition == Board.END) {
             this.isTreasureTaken = true;
             this.fireOnPlusOneEvent(new PlusOneEvent(this));
-        } else if (this.isTreasureTaken && this.currentPosition == Board.BEGINNING) {
+        } else if (this.isTreasureTaken && this.currentPosition == Board.BEGINNING + 1) {
             for (int i = 0; i < 3; i++) {
                 this.fireOnPlusOneEvent(new PlusOneEvent(this));
             }
