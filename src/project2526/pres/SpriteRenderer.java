@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public
     class SpriteRenderer
@@ -35,16 +36,16 @@ public
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         try {
-            this.octopusImg = ImageIO.read(new File("src/project2526/resources/octopus.png"));
-            this.tentacleImg = ImageIO.read(new File("src/project2526/resources/tentacle.png"));
-            this.boatImg = ImageIO.read(new File("src/project2526/resources/boat.png"));
-            this.chestImg = ImageIO.read(new File("src/project2526/resources/chest.png"));
-            this.diverChestImg = ImageIO.read(new File("src/project2526/resources/diver_chest.png"));
-            this.diverBoatWithTreasureImg = ImageIO.read(new File("src/project2526/resources/diver_boat_with_treasure.png"));
-            this.diverBoatWithoutTreasureImg = ImageIO.read(new File("src/project2526/resources/diver_boat_without_treasure.png"));
-            this.diverLeftImg = ImageIO.read(new File("src/project2526/resources/diver_left.png"));
-            this.diverRightImg = ImageIO.read(new File("src/project2526/resources/diver_right.png"));
-            this.diverWaterImg = ImageIO.read(new File("src/project2526/resources/diver_water.png"));
+            this.octopusImg = ImageIO.read(Objects.requireNonNull(Objects.requireNonNull(getClass().getResourceAsStream("/project2526/resources/octopus.png"))));
+            this.tentacleImg = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/project2526/resources/tentacle.png")));
+            this.boatImg = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/project2526/resources/boat.png")));
+            this.chestImg = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/project2526/resources/chest.png")));
+            this.diverChestImg = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/project2526/resources/diver_chest.png")));
+            this.diverBoatWithTreasureImg = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/project2526/resources/diver_boat_with_treasure.png")));
+            this.diverBoatWithoutTreasureImg = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/project2526/resources/diver_boat_without_treasure.png")));
+            this.diverLeftImg = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/project2526/resources/diver_left.png")));
+            this.diverRightImg = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/project2526/resources/diver_right.png")));
+            this.diverWaterImg = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/project2526/resources/diver_water.png")));
         } catch (IOException _) {}
     }
 
@@ -62,7 +63,6 @@ public
         int[][] plansza = this.board.getPlansza();
         for (int i = 0; i < plansza.length; i++) {
             for (int j = 0; j < plansza[i].length; j++) {
-
                 if (plansza[i][j] == 1) {
                     g2d.drawImage(this.tentacleImg, cellSize * j, cellSize * i, cellSize, cellSize, null);
                 }

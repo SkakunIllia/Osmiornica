@@ -22,7 +22,7 @@ public
             {5, 0},
             {5, 1},
             {5, 2},
-            {3, 4}
+            {4, 4}
     };
 
     private final static int BEGINNING = 0;
@@ -124,9 +124,6 @@ public
         for (int i = 1; i < this.plansza.length - 1; i++) {
             int headIndex = this.plansza[i].length;
             for (int j = 0; j < this.plansza[i].length; j++) {
-                if (i == plansza.length - 2 && j == plansza[i].length - 1) {
-                    continue;
-                }
                 if (this.plansza[i][j] == 1) {
                     headIndex = j;
                     break;
@@ -153,11 +150,15 @@ public
     private void checkCollision() {
         int row = PATH_COORDINATES[this.currentPosition][0];
         int col = PATH_COORDINATES[this.currentPosition][1];
-        if (row > 0 && this.plansza[row][col] != 0) {
+
+        boolean isAtTreasure = (this.currentPosition == Board.END);
+
+        if (!isAtTreasure && row > 0 && this.plansza[row][col] != 0) {
             this.lives--;
             this.fireOnMinusLive(new LiveEvent(this));
             this.isTreasureTaken = false;
             this.currentPosition = Board.BEGINNING;
+
             if (this.lives <= 0) {
                 this.fireOnResetEvent(new ResetEvent(this));
             }
