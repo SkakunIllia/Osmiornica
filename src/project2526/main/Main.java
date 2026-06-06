@@ -1,4 +1,6 @@
-package project2526.pres;
+package project2526.main;
+
+import project2526.pres.GameWindow;
 
 import javax.swing.*;
 

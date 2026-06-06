@@ -51,7 +51,7 @@ public
                     this.interrupt();
                 }
 
-                this.timeInterval = Math.max(100, this.timeInterval - 50);
+                this.timeInterval = Math.max(500, this.timeInterval - 50);
 
             } else {
                 try {
@@ -63,20 +63,19 @@ public
         }
     }
 
-    public void resumeThread() {
+    public synchronized void resumeThread() {
         this.isRunning = true;
+        this.notify();
     }
 
     @Override
     public void fireOnStartEvent(StartEvent e) {
-        this.isRunning = false;
-        this.timeInterval = 1_000;
+        this.isRunning = true;
     }
 
     @Override
     public void fireOnPlusOneEvent(PlusOneEvent e) {
-        this.isRunning = false;
-        this.timeInterval = 1_000;
+        this.isRunning = true;
     }
 
     @Override

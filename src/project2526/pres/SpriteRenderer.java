@@ -4,41 +4,76 @@ import project2526.game.Board;
 import project2526.game.TickEvent;
 import project2526.game.TickListener;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public
     class SpriteRenderer
     extends JPanel
     implements TickListener {
 
-    private final Board board;
-    private final Image boatImg;
-    private final Image octopusImg;
-    private final Image chestImg;
-    private final Image diverBoatWithTreasureImg;
-    private final Image diverBoatWithoutTreasureImg;
-    private final Image diverChestImg;
-    private final Image diverLeftImg;
-    private final Image diverRightImg;
-    private final Image diverWaterImg;
-    private final Image tentacleImg;
+    private Board board;
+    private BufferedImage boatImg;
+    private BufferedImage octopusImg;
+    private BufferedImage chestImg;
+    private BufferedImage diverBoatWithTreasureImg;
+    private BufferedImage diverBoatWithoutTreasureImg;
+    private BufferedImage diverChestImg;
+    private BufferedImage diverLeftImg;
+    private BufferedImage diverRightImg;
+    private BufferedImage diverWaterImg;
+    private BufferedImage tentacleImg;
 
     public SpriteRenderer(Board board) {
         super();
+        this.setPreferredSize(new Dimension(500, 500));
         this.board = board;
-        this.setBackground(Color.WHITE);
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        this.octopusImg = new ImageIcon("src/project2526/resources/octopus.png").getImage();
-        this.tentacleImg = new ImageIcon("src/project2526/resources/tentacle.png").getImage();
-        this.boatImg = new ImageIcon("src/project2526/resources/boat.png").getImage();
-        this.chestImg = new ImageIcon("src/project2526/resources/chest.png").getImage();
-        this.diverChestImg = new ImageIcon("src/project2526/resources/diver_chest.png").getImage();
-        this.diverBoatWithTreasureImg = new ImageIcon("src/project2526/resources/diver_boat_with_treasure.png").getImage();
-        this.diverBoatWithoutTreasureImg = new ImageIcon("src/project2526/resources/diver_boat_without_treasure.png").getImage();
-        this.diverLeftImg = new ImageIcon("src/project2526/resources/diver_left.png").getImage();
-        this.diverRightImg = new ImageIcon("src/project2526/resources/diver_right.png").getImage();
-        this.diverWaterImg = new ImageIcon("src/project2526/resources/diver_water.png").getImage();
+        try {
+            this.octopusImg = ImageIO.read(new File("src/project2526/resources/octopus.png"));
+            this.tentacleImg = ImageIO.read(new File("src/project2526/resources/tentacle.png"));
+            this.boatImg = ImageIO.read(new File("src/project2526/resources/boat.png"));
+            this.chestImg = ImageIO.read(new File("src/project2526/resources/chest.png"));
+            this.diverChestImg = ImageIO.read(new File("src/project2526/resources/diver_chest.png"));
+            this.diverBoatWithTreasureImg = ImageIO.read(new File("src/project2526/resources/diver_boat_with_treasure.png"));
+            this.diverBoatWithoutTreasureImg = ImageIO.read(new File("src/project2526/resources/diver_boat_without_treasure.png"));
+            this.diverLeftImg = ImageIO.read(new File("src/project2526/resources/diver_left.png"));
+            this.diverRightImg = ImageIO.read(new File("src/project2526/resources/diver_right.png"));
+            this.diverWaterImg = ImageIO.read(new File("src/project2526/resources/diver_water.png"));
+        } catch (IOException _) {}
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        Graphics2D g2d = (Graphics2D) g;
+        int cellSize = this.getWidth() / this.board.getPlansza().length;
+
+        g2d.drawImage(this.boatImg, 0, 0, cellSize * 2, cellSize, null);
+        g2d.drawImage(this.chestImg, cellSize * 5, cellSize * 4, cellSize, cellSize, null);
+        g2d.drawImage(this.octopusImg, (int)(cellSize * 1.5), 0, cellSize * 6, cellSize * 4, null);
+
+        int[][] plansza = this.board.getPlansza();
+        for (int i = 0; i < plansza.length; i++) {
+            for (int j = 0; j < plansza[i].length; j++) {
+
+                if (plansza[i][j] == 1) {
+                    g2d.drawImage(this.tentacleImg, cellSize * j, cellSize * i, cellSize, cellSize, null);
+                }
+            }
+        }
+
+        int[] currentPosition = this.board.getCurrentPosition();
+        int currentY = currentPosition[0];
+        int currentX = currentPosition[1];
+
+        g2d.drawImage(this.diverWaterImg, cellSize * currentX, cellSize * currentY, cellSize, cellSize, null);
     }
 
     @Override

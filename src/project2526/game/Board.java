@@ -4,12 +4,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public
     class Board
-    implements KeyListener, TickListener, ScoreListener {
+    implements KeyListener, TickListener, ScoreListener, LiveListener {
 
     private final int[][] plansza;
+    private final boolean[] isExtending;
     private static final int[][] PATH_COORDINATES = {
             {0, 0},
             {0, 1},
@@ -20,8 +22,7 @@ public
             {5, 0},
             {5, 1},
             {5, 2},
-            {4, 3},
-            {3, 4},
+            {3, 4}
     };
 
     private final static int BEGINNING = 0;
@@ -34,6 +35,7 @@ public
     private boolean isTreasureTaken;
 
     private final List<ScoreListener> listeners;
+    private final List<LiveListener> liveListeners;
 
     public Board() {
         this.currentPosition = Board.BEGINNING;
@@ -51,7 +53,13 @@ public
                 {0, 0, 0}
         };
 
+        this.isExtending = new boolean[6];
+        for (int i = 0; i < this.isExtending.length; i++) {
+            this.isExtending[i] = Math.random() > 0.5;
+        }
+
         this.listeners = new ArrayList<>();
+        this.liveListeners = new ArrayList<>();
     }
 
     public void addScoreListener(ScoreListener l) {
@@ -62,6 +70,10 @@ public
         this.listeners.remove(l);
     }
 
+    public void addLiveListener(LiveListener l) {
+        this.liveListeners.add(l);
+    }
+
     public int[][] getPlansza() {
         return this.plansza;
     }
@@ -70,8 +82,8 @@ public
         return this.isTreasureTaken;
     }
 
-    public int getCurrentPosition() {
-        return this.currentPosition;
+    public int[] getCurrentPosition() {
+        return Board.PATH_COORDINATES[this.currentPosition];
     }
 
     @Override
@@ -95,6 +107,7 @@ public
                 thread.start();
             } else {
                 thread.resumeThread();
+                this.fireOnStartEvent(new StartEvent(this));
             }
         }
     }
@@ -108,23 +121,30 @@ public
     }
 
     private void updateTentacles() {
-        for (int i = 1; i < this.plansza.length; i++) {
+        for (int i = 1; i < this.plansza.length - 1; i++) {
             int headIndex = this.plansza[i].length;
             for (int j = 0; j < this.plansza[i].length; j++) {
+                if (i == plansza.length - 2 && j == plansza[i].length - 1) {
+                    continue;
+                }
                 if (this.plansza[i][j] == 1) {
                     headIndex = j;
                     break;
                 }
             }
-            boolean extend = Math.random() > 0.5;
+            boolean extend = this.isExtending[i];
 
             if (extend) {
                 if (headIndex > 0) {
                     this.plansza[i][headIndex - 1] = 1;
+                } else {
+                    this.isExtending[i] = false;
                 }
             } else {
                 if (headIndex < this.plansza[i].length) {
                     this.plansza[i][headIndex] = 0;
+                } else {
+                    this.isExtending[i] = true;
                 }
             }
         }
@@ -135,6 +155,7 @@ public
         int col = PATH_COORDINATES[this.currentPosition][1];
         if (row > 0 && this.plansza[row][col] != 0) {
             this.lives--;
+            this.fireOnMinusLive(new LiveEvent(this));
             this.isTreasureTaken = false;
             this.currentPosition = Board.BEGINNING;
             if (this.lives <= 0) {
@@ -191,8 +212,16 @@ public
 
     @Override
     public void fireOnResetEvent(ResetEvent e) {
+        this.lives = 3;
         for (ScoreListener l: this.listeners) {
             l.fireOnResetEvent(new ResetEvent(this));
+        }
+    }
+
+    @Override
+    public void fireOnMinusLive(LiveEvent e) {
+        for (LiveListener l: this.liveListeners) {
+            l.fireOnMinusLive(new LiveEvent(this));
         }
     }
 }
