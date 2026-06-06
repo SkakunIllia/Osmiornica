@@ -10,14 +10,13 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
 
 public
     class SpriteRenderer
     extends JPanel
     implements TickListener {
 
-    private Board board;
+    private final Board board;
     private BufferedImage boatImg;
     private BufferedImage octopusImg;
     private BufferedImage chestImg;
@@ -33,13 +32,13 @@ public
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         try {
-            this.octopusImg = ImageIO.read(Objects.requireNonNull(Objects.requireNonNull(getClass().getResourceAsStream("/project2526/resources/octopus.png"))));
-            this.tentacleImg = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/project2526/resources/tentacle.png")));
-            this.boatImg = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/project2526/resources/boat.png")));
-            this.chestImg = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/project2526/resources/chest.png")));
-            this.diverChestImg = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/project2526/resources/diver_chest.png")));
-            this.diverBoatWithTreasureImg = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/project2526/resources/diver_boat_with_treasure.png")));
-            this.diverWaterImg = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/project2526/resources/diver_water.png")));
+            this.octopusImg = ImageIO.read(new File("/project2526/resources/octopus.png"));
+            this.tentacleImg = ImageIO.read(new File("/project2526/resources/tentacle.png"));
+            this.boatImg = ImageIO.read(new File("/project2526/resources/boat.png"));
+            this.chestImg = ImageIO.read(new File("/project2526/resources/chest.png"));
+            this.diverChestImg = ImageIO.read(new File("/project2526/resources/diver_chest.png"));
+            this.diverBoatWithTreasureImg = ImageIO.read(new File("/project2526/resources/diver_boat_with_treasure.png"));
+            this.diverWaterImg = ImageIO.read(new File("/project2526/resources/diver_water.png"));
         } catch (IOException _) {}
     }
 
