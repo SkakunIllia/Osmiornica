@@ -77,10 +77,6 @@ public
         return this.plansza;
     }
 
-    public boolean isTreasureTaken() {
-        return this.isTreasureTaken;
-    }
-
     public int[] getCurrentPosition() {
         return Board.PATH_COORDINATES[this.currentPosition];
     }
