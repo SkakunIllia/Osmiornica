@@ -81,6 +81,10 @@ public
         return Board.PATH_COORDINATES[this.currentPosition];
     }
 
+    public boolean isTreasureTaken() {
+        return this.isTreasureTaken;
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {}
 

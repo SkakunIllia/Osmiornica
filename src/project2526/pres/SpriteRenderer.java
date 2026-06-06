@@ -22,10 +22,7 @@ public
     private BufferedImage octopusImg;
     private BufferedImage chestImg;
     private BufferedImage diverBoatWithTreasureImg;
-    private BufferedImage diverBoatWithoutTreasureImg;
     private BufferedImage diverChestImg;
-    private BufferedImage diverLeftImg;
-    private BufferedImage diverRightImg;
     private BufferedImage diverWaterImg;
     private BufferedImage tentacleImg;
 
@@ -42,9 +39,6 @@ public
             this.chestImg = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/project2526/resources/chest.png")));
             this.diverChestImg = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/project2526/resources/diver_chest.png")));
             this.diverBoatWithTreasureImg = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/project2526/resources/diver_boat_with_treasure.png")));
-            this.diverBoatWithoutTreasureImg = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/project2526/resources/diver_boat_without_treasure.png")));
-            this.diverLeftImg = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/project2526/resources/diver_left.png")));
-            this.diverRightImg = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/project2526/resources/diver_right.png")));
             this.diverWaterImg = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/project2526/resources/diver_water.png")));
         } catch (IOException _) {}
     }
@@ -72,8 +66,21 @@ public
         int[] currentPosition = this.board.getCurrentPosition();
         int currentY = currentPosition[0];
         int currentX = currentPosition[1];
+        boolean isTreasureTaken = this.board.isTreasureTaken();
 
-        g2d.drawImage(this.diverWaterImg, cellSize * currentX, cellSize * currentY, cellSize, cellSize, null);
+        if (isTreasureTaken) {
+            if (currentX == 0) {
+                g2d.drawImage(this.diverBoatWithTreasureImg, cellSize * currentX, cellSize * currentY, cellSize, cellSize, null);
+            } else {
+                g2d.drawImage(this.diverWaterImg, cellSize * currentX, cellSize * currentY, cellSize, cellSize, null);
+            }
+        } else {
+            if (currentX == 4 && currentY == 4) {
+                g2d.drawImage(this.diverChestImg, cellSize * currentX, cellSize * currentY, cellSize, cellSize, null);
+            } else {
+                g2d.drawImage(this.diverWaterImg, cellSize * currentX, cellSize * currentY, cellSize, cellSize, null);
+            }
+        }
     }
 
     @Override
