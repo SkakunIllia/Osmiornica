@@ -3,7 +3,6 @@
     <output-path>$PROJECT_DIR$/out/artifacts/Project_jar</output-path>
     <root id="archive" name="Project.jar">
       <element id="module-output" name="Project" />
-      <element id="dir-copy" path="$PROJECT_DIR$/src/project2526/resources" />
     </root>
   </artifact>
 </component>
