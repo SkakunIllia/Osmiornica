@@ -24,6 +24,7 @@ public
     private BufferedImage diverChestImg;
     private BufferedImage diverWaterImg;
     private BufferedImage tentacleImg;
+    private BufferedImage plant;
 
     public SpriteRenderer(Board board) {
         super();
@@ -39,6 +40,7 @@ public
             this.diverChestImg = ImageIO.read(new File("src/project2526/resources/diver_chest.png"));
             this.diverBoatWithTreasureImg = ImageIO.read(new File("src/project2526/resources/diver_boat_with_treasure.png"));
             this.diverWaterImg = ImageIO.read(new File("src/project2526/resources/diver_water.png"));
+            this.plant = ImageIO.read(new File("src/project2526/resources/plant.png"));
         } catch (IOException _) {}
     }
 
@@ -49,8 +51,13 @@ public
         Graphics2D g2d = (Graphics2D) g;
         int cellSize = this.getWidth() / this.board.getPlansza().length;
 
+        g2d.drawImage(this.plant, 0, cellSize * 5, cellSize, cellSize, null);
+        g2d.drawImage(this.plant, cellSize * 5, cellSize * 5, cellSize, cellSize, null);
+        g2d.drawImage(this.plant, cellSize * 5, cellSize * 4, cellSize, cellSize, null);
+        g2d.drawImage(this.plant, cellSize * 4, cellSize * 5, cellSize, cellSize, null);
+
         g2d.drawImage(this.boatImg, 0, 0, cellSize * 2, cellSize, null);
-        g2d.drawImage(this.chestImg, cellSize * 5, cellSize * 4, cellSize, cellSize, null);
+        g2d.drawImage(this.chestImg, cellSize * 4, cellSize * 4, cellSize, cellSize, null);
         g2d.drawImage(this.octopusImg, (int)(cellSize * 1.5), 0, cellSize * 6, cellSize * 4, null);
 
         int[][] plansza = this.board.getPlansza();
@@ -74,7 +81,7 @@ public
                 g2d.drawImage(this.diverWaterImg, cellSize * currentX, cellSize * currentY, cellSize, cellSize, null);
             }
         } else {
-            if (currentX == 4 && currentY == 4) {
+            if (currentX == Board.PATH_COORDINATES[Board.END][0] && currentY == Board.PATH_COORDINATES[Board.END][1]) {
                 g2d.drawImage(this.diverChestImg, cellSize * currentX, cellSize * currentY, cellSize, cellSize, null);
             } else {
                 g2d.drawImage(this.diverWaterImg, cellSize * currentX, cellSize * currentY, cellSize, cellSize, null);

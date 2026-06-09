@@ -75,11 +75,11 @@ public
 
     @Override
     public void fireOnResetEvent(ResetEvent e) {
-        this.digitValue = DigitTableModel.ZERO;
+        this.digitValue = DigitTableModel.EMPTY;
         ResetEvent event = new ResetEvent(this);
         for (ScoreListener l: this.listeners) {
             l.fireOnResetEvent(event);
         }
-        this.model.updateNumber(DigitTableModel.ZERO);
+        this.model.updateNumber(DigitTableModel.EMPTY);
     }
 }

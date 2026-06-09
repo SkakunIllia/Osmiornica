@@ -12,13 +12,11 @@ public
     private boolean isRunning = false;
     private final List<TickListener> listeners;
     private int timeInterval;
-    private int currentPoints;
 
     private GameThread() {
         super();
         this.listeners = new ArrayList<>();
         this.timeInterval = 1_000;
-        this.currentPoints = 0;
     }
 
     public static synchronized GameThread getThread() {
@@ -37,62 +35,54 @@ public
         this.listeners.remove(l);
     }
 
+    public synchronized void speedUp() {
+        this.timeInterval = Math.max(500, this.timeInterval - 50);
+    }
+
     @Override
     public void run() {
         this.isRunning = true;
-        TickEvent event = new TickEvent(this);
         while (!this.isInterrupted()) {
-            if (this.currentPoints > 999) {
-                this.stopGame();
+            synchronized (this) {
+                while (!this.isRunning) {
+                    try {
+                        this.wait();
+                    } catch (InterruptedException e) {
+                        this.interrupt();
+                    }
+                }
             }
-            if (this.isRunning) {
-                for (TickListener l: this.listeners) {
-                    l.fireOnTick(event);
-                }
-
-                try {
-                    Thread.sleep(this.timeInterval);
-                } catch (InterruptedException e) {
-                    this.interrupt();
-                }
-
-                this.timeInterval = Math.max(500, this.timeInterval - 50);
-
-            } else {
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    this.interrupt();
-                }
+            for (TickListener l: this.listeners) {
+                l.fireOnTick(new TickEvent(this));
+            }
+            try {
+                Thread.sleep(this.timeInterval);
+            } catch (InterruptedException e) {
+                this.interrupt();
             }
         }
     }
 
     public synchronized void resumeThread() {
         this.isRunning = true;
-        this.currentPoints = 0;
         this.timeInterval = 1_000;
         this.notify();
     }
 
-    public synchronized void stopGame() {
-        this.isRunning = false;
-    }
-
     @Override
-    public void fireOnStartEvent(StartEvent e) {
-        this.currentPoints = 0;
+    public synchronized void fireOnStartEvent(StartEvent e) {
         this.isRunning = true;
+        this.timeInterval = 1_000;
+        this.notify();
     }
 
     @Override
     public void fireOnPlusOneEvent(PlusOneEvent e) {
-        this.currentPoints++;
+        this.isRunning = false;
     }
 
     @Override
     public void fireOnResetEvent(ResetEvent e) {
-        this.currentPoints = 0;
         this.isRunning = false;
         this.timeInterval = 1_000;
     }

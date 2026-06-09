@@ -50,7 +50,7 @@ public
 
     @Override
     public void fireOnResetEvent(ResetEvent e) {
-        this.digitValue = DigitLiveTableModel.THREE;
+        this.digitValue = DigitLiveTableModel.EMPTY;
         this.model.updateNumber(this.digitValue);
     }
 

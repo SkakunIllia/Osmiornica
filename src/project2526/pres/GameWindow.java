@@ -31,7 +31,6 @@ public
         hundreds.addScoreListener(thread);
 
         board.addScoreListener(ones);
-        board.addScoreListener(thread);
 
         thread.addTickListener(board);
 

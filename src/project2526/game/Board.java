@@ -11,7 +11,7 @@ public
 
     private final int[][] plansza;
     private final boolean[] isExtending;
-    private static final int[][] PATH_COORDINATES = {
+    public static final int[][] PATH_COORDINATES = {
             {0, 0},
             {0, 1},
             {1, 0},
@@ -20,11 +20,11 @@ public
             {4, 0},
             {5, 1},
             {5, 2},
-            {4, 4}
+            {4, 3}
     };
 
-    private final static int BEGINNING = 0;
-    private final static int END = Board.PATH_COORDINATES.length - 1;
+    public final static int BEGINNING = 0;
+    public final static int END = Board.PATH_COORDINATES.length - 1;
 
     private int currentPosition;
     private int movingPositionBuffer;
@@ -149,9 +149,7 @@ public
         int row = PATH_COORDINATES[this.currentPosition][0];
         int col = PATH_COORDINATES[this.currentPosition][1];
 
-        boolean isAtTreasure = (this.currentPosition == Board.END);
-
-        if (!isAtTreasure && row > 0 && this.plansza[row][col] != 0) {
+        if (this.plansza[row][col] != 0) {
             this.lives--;
             this.fireOnMinusLive(new LiveEvent(this));
             this.isTreasureTaken = false;
@@ -168,6 +166,7 @@ public
             this.isTreasureTaken = true;
             this.fireOnPlusOneEvent(new PlusOneEvent(this));
         } else if (this.isTreasureTaken && this.currentPosition == Board.BEGINNING + 1) {
+            GameThread.getThread().speedUp();
             for (int i = 0; i < 3; i++) {
                 this.fireOnPlusOneEvent(new PlusOneEvent(this));
             }
