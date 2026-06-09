@@ -17,30 +17,27 @@ public
         SevenSegmentDigit ones = new SevenSegmentDigit();
         SevenSegmentDigit tens = new SevenSegmentDigit();
         SevenSegmentDigit hundreds = new SevenSegmentDigit();
-
         SevenSegmentLiveCounter lives = new SevenSegmentLiveCounter();
 
         Board board = new Board();
-        this.addKeyListener(board);
-
-        board.addLiveListener(lives);
-        board.addScoreListener(lives);
 
         GameThread thread = GameThread.getThread();
 
+        this.addKeyListener(board);
         hundreds.addScoreListener(thread);
-
         board.addScoreListener(ones);
-
-        thread.addTickListener(board);
-
+        board.addScoreListener(lives);
         ones.addScoreListener(tens);
         tens.addScoreListener(hundreds);
 
-        JLabel pointsLabel = new JLabel("Points: ");
-        pointsLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        thread.addTickListener(board);
+
+        board.addLiveListener(lives);
 
         JPanel pointsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
+        JLabel pointsLabel = new JLabel("Points: ");
+        pointsLabel.setFont(new Font("Arial", Font.BOLD, 20));
 
         pointsPanel.add(pointsLabel);
         pointsPanel.add(hundreds);
@@ -56,6 +53,7 @@ public
         livesPanel.add(lives);
 
         JPanel wrapper = new JPanel(new GridBagLayout());
+
         SpriteRenderer spriteRenderer = new SpriteRenderer(board);
 
         thread.addTickListener(spriteRenderer);
