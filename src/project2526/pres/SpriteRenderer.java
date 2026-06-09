@@ -81,7 +81,7 @@ public
                 g2d.drawImage(this.diverWaterImg, cellSize * currentX, cellSize * currentY, cellSize, cellSize, null);
             }
         } else {
-            if (currentX == Board.PATH_COORDINATES[Board.END][0] && currentY == Board.PATH_COORDINATES[Board.END][1]) {
+            if (currentX == Board.PATH_COORDINATES[Board.END][1] && currentY == Board.PATH_COORDINATES[Board.END][0]) {
                 g2d.drawImage(this.diverChestImg, cellSize * currentX, cellSize * currentY, cellSize, cellSize, null);
             } else {
                 g2d.drawImage(this.diverWaterImg, cellSize * currentX, cellSize * currentY, cellSize, cellSize, null);
